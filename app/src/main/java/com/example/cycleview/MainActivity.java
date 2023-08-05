@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
                     dataList.add(dataClass);
                 }
-                adapter.notifyDataSetChanged();
+                adapter.notifyItemInserted(dataList.size() + 1);
                 dialog.dismiss();
             }
 
@@ -90,12 +90,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, UploadActivity.class);
-                startActivity(intent);
-            }
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, UploadActivity.class);
+            startActivity(intent);
         });
 
     }
