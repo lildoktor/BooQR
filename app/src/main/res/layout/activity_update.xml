@@ -36,7 +36,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@drawable/uploadimg"
+                android:src="@drawable/baseline_cloud_upload_24"
                 android:id="@+id/updateImage"
                 android:layout_marginTop="10dp"
                 android:scaleType="fitXY"/>

@@ -17,7 +17,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:id="@+id/recImage"
-            android:src="@drawable/uploadimg"
+            android:src="@drawable/books"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
@@ -33,17 +33,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:layout_toEndOf="@id/recImage"/>
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:id="@+id/recLang"
-            android:text="priority"
-            android:layout_toEndOf="@id/recTitle"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="90dp"
-            android:textAlignment="center"
-            android:textColor="@color/lavender"
-            android:textSize="16sp"/>
+
         <TextView
             android:layout_width="140dp"
             android:layout_height="wrap_content"
