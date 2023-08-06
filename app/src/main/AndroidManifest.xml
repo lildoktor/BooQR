@@ -17,6 +17,9 @@
         android:theme="@style/Theme.StoreDataRealtime"
         tools:targetApi="34">
         <activity
+            android:name=".UploadActivity2"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity2"
             android:exported="false" />
         <activity

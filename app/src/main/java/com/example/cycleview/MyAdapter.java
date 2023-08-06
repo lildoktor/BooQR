@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+
     private Context context;
     private List<DataClass> dataList;
     boolean switcher = false;
@@ -43,11 +44,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         Glide.with(context).load(dataList.get(position).getDataImage()).into(holder.recImage);
         holder.recTitle.setText(dataList.get(position).getDataTitle());
         holder.recDesc.setText(dataList.get(position).getDataDesc());
+
         holder.recCard.setOnClickListener(view -> {
-            Intent intent = new Intent(context, DetailActivity.class);
-            intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getDataImage());
-            intent.putExtra("Description", dataList.get(holder.getAdapterPosition()).getDataDesc());
-            intent.putExtra("Title", dataList.get(holder.getAdapterPosition()).getDataTitle());
+            Intent intent = new Intent(context, MainActivity2.class);
             intent.putExtra("Key",dataList.get(holder.getAdapterPosition()).getKey());
             context.startActivity(intent);
         });
@@ -106,6 +105,7 @@ class MyViewHolder extends RecyclerView.ViewHolder{
     ImageView recImage, option, delete, edit;
     TextView recTitle, recDesc;
     CardView recCard;
+
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
         recImage = itemView.findViewById(R.id.recImage);
@@ -117,6 +117,4 @@ class MyViewHolder extends RecyclerView.ViewHolder{
         delete = itemView.findViewById(R.id.delete);
         edit = itemView.findViewById(R.id.edit);
     }
-
-
 }
