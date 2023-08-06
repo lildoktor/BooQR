@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,15 +27,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
 import java.text.DateFormat;
 import java.time.Instant;
 import java.util.Calendar;
+
 public class UploadActivity extends AppCompatActivity {
     ImageView uploadImage;
     Button saveButton;
     EditText collectionName, bookName;
     String imageURL, timestamp, collection, book;
     Uri uri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +50,7 @@ public class UploadActivity extends AppCompatActivity {
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK){
+                    if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         uri = data.getData();
                         uploadImage.setImageURI(uri);
@@ -61,46 +66,50 @@ public class UploadActivity extends AppCompatActivity {
         });
         saveButton.setOnClickListener(view -> saveData());
     }
-    public void saveData(){
-        if(uri == null){
+
+    public void saveData() {
+        if (uri == null) {
             uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getResources().getResourcePackageName(R.drawable.books) + '/' + getResources().getResourceTypeName(R.drawable.books) + '/' + getResources().getResourceEntryName(R.drawable.books));
         }
         collection = collectionName.getText().toString();
         book = bookName.getText().toString();
-        if(collection.isEmpty()) {
+        if (collection.isEmpty()) {
             collectionName.setError("Enter Collection Name");
             collectionName.requestFocus();
             return;
         }
-        String mimeType = getContentResolver().getType(uri);
+
         timestamp = String.valueOf(Instant.now().getEpochSecond());
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("UID")
                 .child(timestamp);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
         builder.setCancelable(false);
         builder.setView(R.layout.progress_layout);
         AlertDialog dialog = builder.create();
         dialog.show();
+
         storageReference.putFile(uri).addOnSuccessListener(taskSnapshot -> {
             Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-            while (!uriTask.isComplete());
+            while (!uriTask.isComplete()) ;
             Uri urlImage = uriTask.getResult();
             imageURL = urlImage.toString();
             uploadData();
             dialog.dismiss();
         }).addOnFailureListener(e -> {
             dialog.dismiss();
-            Toast.makeText(UploadActivity.this, "Error uploading image: "+e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(UploadActivity.this, "Error uploading image: " + e.getMessage(), Toast.LENGTH_LONG).show();
         });
     }
-    public void uploadData(){
+
+    public void uploadData() {
         DataClass dataClass = new DataClass(collection, book, imageURL, timestamp);
-        FirebaseDatabase.getInstance("https://booqr-3cb0a-default-rtdb.europe-west1.firebasedatabase.app").getReference("UID").child(timestamp)
+        FirebaseDatabase.getInstance().getReference("UID").child(timestamp)
                 .setValue(dataClass).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         Toast.makeText(UploadActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                         finish();
                     }
-                }).addOnFailureListener(e -> Toast.makeText(UploadActivity.this, "Error creating collection: "+ e.getMessage(), Toast.LENGTH_SHORT).show());
+                }).addOnFailureListener(e -> Toast.makeText(UploadActivity.this, "Error creating collection: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

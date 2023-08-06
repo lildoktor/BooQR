@@ -10,6 +10,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 import java.util.List;
 import androidx.annotation.NonNull;
@@ -19,16 +25,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private Context context;
     private List<DataClass> dataList;
     boolean switcher = false;
+
     public MyAdapter(Context context, List<DataClass> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
         return new MyViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Glide.with(context).load(dataList.get(position).getDataImage()).into(holder.recImage);
@@ -55,12 +64,34 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
             }
         });
 
-//        holder.delete.setOnClickListener(view -> {
-//            DatabaseHelper databaseHelper = new DatabaseHelper(context);
-//            databaseHelper.delete(dataList.get(holder.getAdapterPosition()).getKey());
-//            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-//        });
+        holder.edit.setOnClickListener(view -> {
+            Intent intent = new Intent(context, UpdateActivity.class);
+            intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getDataImage());
+            intent.putExtra("Description", dataList.get(holder.getAdapterPosition()).getDataDesc());
+            intent.putExtra("Title", dataList.get(holder.getAdapterPosition()).getDataTitle());
+            intent.putExtra("Key",dataList.get(holder.getAdapterPosition()).getKey());
+            context.startActivity(intent);
+        });
+
+
+        holder.delete.setOnClickListener(view -> {
+
+            //TODO: delete subdirectory
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("UID");
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+
+            StorageReference storageReference = storage.getReferenceFromUrl(dataList.get(holder.getAdapterPosition()).getDataImage());
+            storageReference.delete().addOnSuccessListener(unused -> {
+                reference.child(dataList.get(holder.getAdapterPosition()).getKey()).removeValue().addOnSuccessListener(unused1 -> {
+                    holder.delete.setVisibility(View.GONE);
+                    holder.edit.setVisibility(View.GONE);
+                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                });
+            });
+        });
     }
+
     @Override
     public int getItemCount() {
         return dataList.size();
@@ -70,6 +101,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         notifyDataSetChanged();
     }
 }
+
 class MyViewHolder extends RecyclerView.ViewHolder{
     ImageView recImage, option, delete, edit;
     TextView recTitle, recDesc;
@@ -85,4 +117,6 @@ class MyViewHolder extends RecyclerView.ViewHolder{
         delete = itemView.findViewById(R.id.delete);
         edit = itemView.findViewById(R.id.edit);
     }
+
+
 }
