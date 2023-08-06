@@ -26,12 +26,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import java.text.DateFormat;
+import java.time.Instant;
 import java.util.Calendar;
 public class UploadActivity extends AppCompatActivity {
     ImageView uploadImage;
     Button saveButton;
     EditText collectionName, bookName;
-    String imageURL;
+    String imageURL, timestamp, collection, book;
     Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +65,17 @@ public class UploadActivity extends AppCompatActivity {
         if(uri == null){
             uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getResources().getResourcePackageName(R.drawable.books) + '/' + getResources().getResourceTypeName(R.drawable.books) + '/' + getResources().getResourceEntryName(R.drawable.books));
         }
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Android Images")
-                .child(uri.getLastPathSegment());
+        collection = collectionName.getText().toString();
+        book = bookName.getText().toString();
+        if(collection.isEmpty()) {
+            collectionName.setError("Enter Collection Name");
+            collectionName.requestFocus();
+            return;
+        }
+        String mimeType = getContentResolver().getType(uri);
+        timestamp = String.valueOf(Instant.now().getEpochSecond());
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("UID")
+                .child(timestamp);
         AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
         builder.setCancelable(false);
         builder.setView(R.layout.progress_layout);
@@ -78,21 +88,19 @@ public class UploadActivity extends AppCompatActivity {
             imageURL = urlImage.toString();
             uploadData();
             dialog.dismiss();
-        }).addOnFailureListener(e -> dialog.dismiss());
+        }).addOnFailureListener(e -> {
+            dialog.dismiss();
+            Toast.makeText(UploadActivity.this, "Error uploading image: "+e.getMessage(), Toast.LENGTH_LONG).show();
+        });
     }
     public void uploadData(){
-        String title = collectionName.getText().toString();
-        String desc = bookName.getText().toString();
-        DataClass dataClass = new DataClass(title, desc, imageURL);
-        //We are changing the child from title to currentDate,
-        // because we will be updating title as well and it may affect child value.
-        String currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-        FirebaseDatabase.getInstance("https://booqr-3cb0a-default-rtdb.europe-west1.firebasedatabase.app").getReference("Android Tutorials").child(currentDate)
+        DataClass dataClass = new DataClass(collection, book, imageURL, timestamp);
+        FirebaseDatabase.getInstance("https://booqr-3cb0a-default-rtdb.europe-west1.firebasedatabase.app").getReference("UID").child(timestamp)
                 .setValue(dataClass).addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         Toast.makeText(UploadActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                         finish();
                     }
-                }).addOnFailureListener(e -> Toast.makeText(UploadActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show());
+                }).addOnFailureListener(e -> Toast.makeText(UploadActivity.this, "Error creating collection: "+ e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

@@ -126,7 +126,7 @@ public class UpdateActivity extends AppCompatActivity {
         desc = updateDesc.getText().toString().trim();
         lang = updateLang.getText().toString();
 
-        DataClass dataClass = new DataClass(title, desc, imageUrl);
+        DataClass dataClass = new DataClass(title, desc, imageUrl, "0");
 
         databaseReference.setValue(dataClass).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

@@ -4,6 +4,16 @@ public class DataClass {
     private String dataTitle;
     private String dataDesc;
     private String dataImage;
+    private String lastEdit;
+
+    public String getLastEdit() {
+        return lastEdit;
+    }
+
+    public void setLastEdit(String lastEdit) {
+        this.lastEdit = lastEdit;
+    }
+
     private String key;
     public String getKey() {
         return key;
@@ -20,10 +30,11 @@ public class DataClass {
     public String getDataImage() {
         return dataImage;
     }
-    public DataClass(String dataTitle, String dataDesc, String dataImage) {
+    public DataClass(String dataTitle, String dataDesc, String dataImage, String lastEdit) {
         this.dataTitle = dataTitle;
         this.dataDesc = dataDesc;
         this.dataImage = dataImage;
+        this.lastEdit = lastEdit;
     }
 
     public DataClass() {

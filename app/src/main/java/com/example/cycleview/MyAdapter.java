@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private Context context;
     private List<DataClass> dataList;
+    boolean switcher = false;
     public MyAdapter(Context context, List<DataClass> dataList) {
         this.context = context;
         this.dataList = dataList;
@@ -42,9 +43,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
             context.startActivity(intent);
         });
 
-        holder.recImage.setOnClickListener(view -> {
-            Toast.makeText(context, "Image Clicked " + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+        holder.option.setOnClickListener(view -> {
+            if(!switcher) {
+                holder.delete.setVisibility(View.VISIBLE);
+                holder.edit.setVisibility(View.VISIBLE);
+                switcher = true;
+            }else{
+                holder.delete.setVisibility(View.GONE);
+                holder.edit.setVisibility(View.GONE);
+                switcher = false;
+            }
         });
+
+//        holder.delete.setOnClickListener(view -> {
+//            DatabaseHelper databaseHelper = new DatabaseHelper(context);
+//            databaseHelper.delete(dataList.get(holder.getAdapterPosition()).getKey());
+//            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+//        });
     }
     @Override
     public int getItemCount() {
@@ -56,7 +71,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     }
 }
 class MyViewHolder extends RecyclerView.ViewHolder{
-    ImageView recImage;
+    ImageView recImage, option, delete, edit;
     TextView recTitle, recDesc;
     CardView recCard;
     public MyViewHolder(@NonNull View itemView) {
@@ -65,5 +80,9 @@ class MyViewHolder extends RecyclerView.ViewHolder{
         recCard = itemView.findViewById(R.id.recCard);
         recDesc = itemView.findViewById(R.id.recDesc);
         recTitle = itemView.findViewById(R.id.recTitle);
+
+        option = itemView.findViewById(R.id.dot);
+        delete = itemView.findViewById(R.id.delete);
+        edit = itemView.findViewById(R.id.edit);
     }
 }
