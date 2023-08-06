@@ -33,7 +33,7 @@ import java.time.Instant;
 import java.util.Calendar;
 import java.util.Random;
 
-public class UploadActivity2 extends AppCompatActivity {
+public class UploadActivity4 extends AppCompatActivity {
     ImageView uploadImage;
     Button saveButton;
     EditText collectionName, bookName;
@@ -44,7 +44,7 @@ public class UploadActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload2);
+        setContentView(R.layout.activity_upload4);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
@@ -64,7 +64,7 @@ public class UploadActivity2 extends AppCompatActivity {
                         uri = data.getData();
                         uploadImage.setImageURI(uri);
                     } else {
-                        Toast.makeText(UploadActivity2.this, "No Video Selected", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UploadActivity4.this, "No Image Selected", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
@@ -92,7 +92,7 @@ public class UploadActivity2 extends AppCompatActivity {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("UID").child(key)
                 .child(timestamp);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity2.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity4.this);
         builder.setCancelable(false);
         builder.setView(R.layout.progress_layout);
         AlertDialog dialog = builder.create();
@@ -107,18 +107,18 @@ public class UploadActivity2 extends AppCompatActivity {
             dialog.dismiss();
         }).addOnFailureListener(e -> {
             dialog.dismiss();
-            Toast.makeText(UploadActivity2.this, "Error uploading image: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(UploadActivity4.this, "Error uploading image: " + e.getMessage(), Toast.LENGTH_LONG).show();
         });
     }
 
     public void uploadData() {
-        DataClass2 dataClass = new DataClass2(1, collection, pageNum, imageURL, timestamp);
+        DataClass2 dataClass = new DataClass2(3, collection, pageNum, imageURL, timestamp);
         FirebaseDatabase.getInstance().getReference("UID").child(key).child(timestamp)
                 .setValue(dataClass).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(UploadActivity2.this, "Saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UploadActivity4.this, "Saved", Toast.LENGTH_SHORT).show();
                         finish();
                     }
-                }).addOnFailureListener(e -> Toast.makeText(UploadActivity2.this, "Error creating collection: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                }).addOnFailureListener(e -> Toast.makeText(UploadActivity4.this, "Error creating collection: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

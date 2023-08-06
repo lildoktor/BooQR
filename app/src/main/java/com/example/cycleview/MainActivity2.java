@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity2 extends AppCompatActivity {
-    FloatingActionButton fab;
+    FloatingActionButton addImage, addVideo, addQuestion, addAudio, addDrag;
     DatabaseReference databaseReference;
     ValueEventListener eventListener;
     RecyclerView recyclerView;
-    List<DataClass> dataList;
+    List<DataClass2> dataList;
     MyAdapter2 adapter;
     SearchView searchView;
     String key;
@@ -37,10 +37,15 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        addImage = findViewById(R.id.addImage);
+        addVideo = findViewById(R.id.addVideo);
+        addQuestion = findViewById(R.id.addQuestion);
+        addAudio = findViewById(R.id.addAudio);
+        addDrag = findViewById(R.id.addDrag);
         recyclerView = findViewById(R.id.recyclerView);
-        fab = findViewById(R.id.fab);
         searchView = findViewById(R.id.search);
         searchView.clearFocus();
+
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
@@ -70,7 +75,7 @@ public class MainActivity2 extends AppCompatActivity {
                 for (DataSnapshot itemSnapshot: snapshot.getChildren()){
 
                     if (itemSnapshot.hasChild("lastEdit")) { // Check for a unique field
-                        DataClass dataClass = itemSnapshot.getValue(DataClass.class);
+                        DataClass2 dataClass = itemSnapshot.getValue(DataClass2.class);
                         dataClass.setKey(itemSnapshot.getKey());
                         dataList.add(dataClass);
                     }
@@ -98,17 +103,41 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
-        fab.setOnClickListener(view -> {
+        addImage.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity2.this, UploadActivity2.class);
+            intent.putExtra("Key", key);
+            startActivity(intent);
+        });
+//
+        addVideo.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity2.this, UploadActivity3.class);
+            intent.putExtra("Key", key);
+            startActivity(intent);
+        });
+
+        addAudio.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity2.this, UploadActivity4.class);
+            intent.putExtra("Key", key);
+            startActivity(intent);
+        });
+
+        addQuestion.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity2.this, UploadActivity5.class);
+            intent.putExtra("Key", key);
+            startActivity(intent);
+        });
+
+        addDrag.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity2.this, UploadActivity6.class);
             intent.putExtra("Key", key);
             startActivity(intent);
         });
 
     }
     public void searchList(String text){
-        ArrayList<DataClass> searchList = new ArrayList<>();
-        for (DataClass dataClass: dataList){
-            if (dataClass.getDataTitle().toLowerCase().contains(text.toLowerCase())){
+        ArrayList<DataClass2> searchList = new ArrayList<>();
+        for (DataClass2 dataClass: dataList){
+            if (dataClass.getTitle().toLowerCase().contains(text.toLowerCase())){
                 searchList.add(dataClass);
             }
         }

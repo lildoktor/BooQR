@@ -18,16 +18,17 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MyAdapter2 extends RecyclerView.Adapter<MyViewHolder2> {
     private Context context;
-    private List<DataClass> dataList;
+    private List<DataClass2> dataList;
     boolean switcher = false;
 
-    public MyAdapter2(Context context, List<DataClass> dataList) {
+    public MyAdapter2(Context context, List<DataClass2> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
@@ -41,9 +42,25 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyViewHolder2> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder2 holder, int position) {
-        Glide.with(context).load(dataList.get(position).getDataImage()).into(holder.recImage);
-        holder.recTitle.setText(dataList.get(position).getDataTitle());
-        holder.recDesc.setText(dataList.get(position).getDataDesc());
+        switch (dataList.get(position).getType()) {
+            case 1:
+                holder.recImage.setImageResource(R.drawable.baseline_image_60);
+                break;
+            case 2:
+                holder.recImage.setImageResource(R.drawable.baseline_smart_display_60);
+                break;
+            case 3:
+                holder.recImage.setImageResource(R.drawable.baseline_audiotrack_60);
+                break;
+            case 4:
+                holder.recImage.setImageResource(R.drawable.baseline_question_mark_60);
+                break;
+            case 5:
+                holder.recImage.setImageResource(R.drawable.baseline_draw_60);
+                break;
+        }
+        holder.recTitle.setText(dataList.get(position).getTitle());
+        holder.recDesc.setText(String.valueOf(dataList.get(position).getPageNum()));
 //        holder.recCard.setOnClickListener(view -> {
 //            Intent intent = new Intent(context, DetailActivity.class);
 //            intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getDataImage());
@@ -97,16 +114,18 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyViewHolder2> {
     public int getItemCount() {
         return dataList.size();
     }
-    public void searchDataList(ArrayList<DataClass> searchList){
+
+    public void searchDataList(ArrayList<DataClass2> searchList) {
         dataList = searchList;
         notifyDataSetChanged();
     }
 }
 
-class MyViewHolder2 extends RecyclerView.ViewHolder{
+class MyViewHolder2 extends RecyclerView.ViewHolder {
     ImageView recImage, option, delete, edit;
     TextView recTitle, recDesc;
     CardView recCard;
+
     public MyViewHolder2(@NonNull View itemView) {
         super(itemView);
         recImage = itemView.findViewById(R.id.recImage);
