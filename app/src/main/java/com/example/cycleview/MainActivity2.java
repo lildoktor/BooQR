@@ -103,13 +103,13 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
-        addImage.setOnClickListener(view -> {
+        addVideo.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity2.this, UploadActivity2.class);
             intent.putExtra("Key", key);
             startActivity(intent);
         });
-//
-        addVideo.setOnClickListener(view -> {
+
+        addImage.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity2.this, UploadActivity3.class);
             intent.putExtra("Key", key);
             startActivity(intent);

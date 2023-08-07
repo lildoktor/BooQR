@@ -46,6 +46,7 @@ public class UploadActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload2);
 
+        uri = null;
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
             key = bundle.getString("Key");
@@ -62,7 +63,6 @@ public class UploadActivity2 extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         uri = data.getData();
-                        uploadImage.setImageURI(uri);
                     } else {
                         Toast.makeText(UploadActivity2.this, "No Video Selected", Toast.LENGTH_SHORT).show();
                     }
@@ -70,7 +70,7 @@ public class UploadActivity2 extends AppCompatActivity {
         );
         uploadImage.setOnClickListener(view -> {
             Intent photoPicker = new Intent(Intent.ACTION_PICK);
-            photoPicker.setType("image/*");
+            photoPicker.setType("video/*");
             activityResultLauncher.launch(photoPicker);
         });
         saveButton.setOnClickListener(view -> saveData());
@@ -78,14 +78,19 @@ public class UploadActivity2 extends AppCompatActivity {
 
     public void saveData() {
         if (uri == null) {
-            uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getResources().getResourcePackageName(R.drawable.books) + '/' + getResources().getResourceTypeName(R.drawable.books) + '/' + getResources().getResourceEntryName(R.drawable.books));
+            Toast.makeText(UploadActivity2.this, "Select a video to upload", Toast.LENGTH_SHORT).show();
+            return;
         }
         collection = collectionName.getText().toString();
-        pageNum = Integer.parseInt(bookName.getText().toString());
         if (collection.isEmpty()) {
             collectionName.setError("Enter Collection Name");
             collectionName.requestFocus();
             return;
+        }
+        if(bookName.getText().toString().isEmpty()){
+            pageNum = -1;
+        }else {
+            pageNum = Integer.parseInt(bookName.getText().toString());
         }
 
         timestamp = String.valueOf(Instant.now().getEpochSecond());
@@ -100,14 +105,22 @@ public class UploadActivity2 extends AppCompatActivity {
 
         storageReference.putFile(uri).addOnSuccessListener(taskSnapshot -> {
             Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-            while (!uriTask.isComplete()) ;
-            Uri urlImage = uriTask.getResult();
-            imageURL = urlImage.toString();
-            uploadData();
-            dialog.dismiss();
+            uriTask.addOnSuccessListener(uri -> {
+                imageURL = uri.toString();
+                uploadData();
+                dialog.dismiss();
+            }).addOnFailureListener(e -> {
+                dialog.dismiss();
+                Toast.makeText(UploadActivity2.this, "Error uploading video: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+//            while (!uriTask.isComplete()) ;
+//            Uri urlImage = uriTask.getResult();
+//            imageURL = urlImage.toString();
+//            uploadData();
+//            dialog.dismiss();
         }).addOnFailureListener(e -> {
             dialog.dismiss();
-            Toast.makeText(UploadActivity2.this, "Error uploading image: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(UploadActivity2.this, "Error uploading video: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -118,7 +131,9 @@ public class UploadActivity2 extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(UploadActivity2.this, "Saved", Toast.LENGTH_SHORT).show();
                         finish();
+                    }else {
+                        Toast.makeText(UploadActivity2.this, "Error saving data: " + task.getException(), Toast.LENGTH_SHORT).show();
                     }
-                }).addOnFailureListener(e -> Toast.makeText(UploadActivity2.this, "Error creating collection: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                });
     }
 }

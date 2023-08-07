@@ -44,10 +44,10 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyViewHolder2> {
     public void onBindViewHolder(@NonNull MyViewHolder2 holder, int position) {
         switch (dataList.get(position).getType()) {
             case 1:
-                holder.recImage.setImageResource(R.drawable.baseline_image_60);
+                holder.recImage.setImageResource(R.drawable.baseline_smart_display_60);
                 break;
             case 2:
-                holder.recImage.setImageResource(R.drawable.baseline_smart_display_60);
+                holder.recImage.setImageResource(R.drawable.baseline_image_60);
                 break;
             case 3:
                 holder.recImage.setImageResource(R.drawable.baseline_audiotrack_60);
@@ -60,7 +60,12 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyViewHolder2> {
                 break;
         }
         holder.recTitle.setText(dataList.get(position).getTitle());
-        holder.recDesc.setText(String.valueOf(dataList.get(position).getPageNum()));
+        if(dataList.get(position).getPageNum() < 0){
+            holder.recDesc.setVisibility(View.GONE);
+            holder.recDescPage.setVisibility(View.GONE);
+        }else {
+            holder.recDesc.setText(String.valueOf(dataList.get(position).getPageNum()));
+        }
 //        holder.recCard.setOnClickListener(view -> {
 //            Intent intent = new Intent(context, DetailActivity.class);
 //            intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getDataImage());
@@ -123,13 +128,14 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyViewHolder2> {
 
 class MyViewHolder2 extends RecyclerView.ViewHolder {
     ImageView recImage, option, delete, edit;
-    TextView recTitle, recDesc;
+    TextView recTitle, recDesc, recDescPage;
     CardView recCard;
 
     public MyViewHolder2(@NonNull View itemView) {
         super(itemView);
         recImage = itemView.findViewById(R.id.recImage);
         recCard = itemView.findViewById(R.id.recCard);
+        recDescPage = itemView.findViewById(R.id.Page);
         recDesc = itemView.findViewById(R.id.PageNum);
         recTitle = itemView.findViewById(R.id.recTitle);
 
