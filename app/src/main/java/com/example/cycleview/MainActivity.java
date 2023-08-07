@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MyAdapter(MainActivity.this, dataList);
         recyclerView.setAdapter(adapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("UID");
+        databaseReference = FirebaseDatabase.getInstance("https://booqr-3cb0a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("UID");
         dialog.show();
         eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("TAG", "onCancelled: " + error.toException());
                 dialog.dismiss();
             }
         });

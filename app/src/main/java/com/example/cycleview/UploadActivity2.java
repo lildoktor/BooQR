@@ -11,6 +11,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +29,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.text.DateFormat;
 import java.time.Instant;
@@ -130,6 +136,9 @@ public class UploadActivity2 extends AppCompatActivity {
                 .setValue(dataClass).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(UploadActivity2.this, "Saved", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(UploadActivity2.this, QR.class);
+                        intent.putExtra("uri", "UID/" + key + "/" + timestamp);
+                        startActivity(intent);
                         finish();
                     }else {
                         Toast.makeText(UploadActivity2.this, "Error saving data: " + task.getException(), Toast.LENGTH_SHORT).show();
