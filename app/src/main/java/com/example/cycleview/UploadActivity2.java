@@ -136,7 +136,7 @@ public class UploadActivity2 extends AppCompatActivity {
                 .setValue(dataClass).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(UploadActivity2.this, "Saved", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(UploadActivity2.this, QR.class);
+                        Intent intent = new Intent(UploadActivity2.this, QRActivity.class);
                         intent.putExtra("uri", "UID/" + key + "/" + timestamp);
                         startActivity(intent);
                         finish();

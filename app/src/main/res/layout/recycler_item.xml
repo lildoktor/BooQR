@@ -24,7 +24,7 @@
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/roundedImageViewRounded"/>
         <TextView
-            android:layout_width="120dp"
+            android:layout_width="200dp"
             android:layout_height="30dp"
             android:id="@+id/recTitle"
             android:text="Title"

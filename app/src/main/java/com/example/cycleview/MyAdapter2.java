@@ -2,6 +2,7 @@ package com.example.cycleview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyViewHolder2> {
                 break;
             case 4:
                 holder.recImage.setImageResource(R.drawable.baseline_question_mark_60);
+//                holder.recCard.setCardBackgroundColor(Color.parseColor("#ffc8ba"));
                 break;
             case 5:
                 holder.recImage.setImageResource(R.drawable.baseline_draw_60);
@@ -75,17 +77,17 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyViewHolder2> {
 //            context.startActivity(intent);
 //        });
 //
-//        holder.option.setOnClickListener(view -> {
-//            if(!switcher) {
-//                holder.delete.setVisibility(View.VISIBLE);
-//                holder.edit.setVisibility(View.VISIBLE);
-//                switcher = true;
-//            }else{
-//                holder.delete.setVisibility(View.GONE);
-//                holder.edit.setVisibility(View.GONE);
-//                switcher = false;
-//            }
-//        });
+        holder.option.setOnClickListener(view -> {
+            if(!switcher) {
+                holder.delete.setVisibility(View.VISIBLE);
+                holder.edit.setVisibility(View.VISIBLE);
+                switcher = true;
+            }else{
+                holder.delete.setVisibility(View.GONE);
+                holder.edit.setVisibility(View.GONE);
+                switcher = false;
+            }
+        });
 //
 //        holder.edit.setOnClickListener(view -> {
 //            Intent intent = new Intent(context, UpdateActivity.class);
@@ -139,8 +141,9 @@ class MyViewHolder2 extends RecyclerView.ViewHolder {
         recDesc = itemView.findViewById(R.id.PageNum);
         recTitle = itemView.findViewById(R.id.recTitle);
 
-//        option = itemView.findViewById(R.id.dot);
-//        delete = itemView.findViewById(R.id.delete);
-//        edit = itemView.findViewById(R.id.edit);
+        option = itemView.findViewById(R.id.dot);
+        delete = itemView.findViewById(R.id.delete);
+        edit = itemView.findViewById(R.id.edit);
     }
+
 }

@@ -24,7 +24,7 @@
             android:scaleType="centerCrop"
             />
         <TextView
-            android:layout_width="120dp"
+            android:layout_width="200dp"
             android:layout_height="30dp"
             android:id="@+id/recTitle"
             android:text="Title"
@@ -61,5 +61,34 @@
             android:layout_marginStart="40dp"
             android:maxLines="1"
             android:layout_marginBottom="12dp"/>
+
+        <ImageView
+            android:id="@+id/dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_more_vert_24"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_edit_24"
+            android:layout_alignEnd="@id/dot"
+            android:layout_marginEnd="40dp"
+            android:layout_centerVertical="true"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_delete_24_red"
+            android:layout_alignEnd="@id/edit"
+            android:layout_marginEnd="40dp"
+            android:layout_centerVertical="true"
+            android:visibility="gone"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -91,11 +91,14 @@ public class UploadActivity extends AppCompatActivity {
 
         storageReference.putFile(uri).addOnSuccessListener(taskSnapshot -> {
             Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-            while (!uriTask.isComplete()) ;
-            Uri urlImage = uriTask.getResult();
-            imageURL = urlImage.toString();
-            uploadData();
-            dialog.dismiss();
+            uriTask.addOnSuccessListener(uri -> {
+                imageURL = uri.toString();
+                uploadData();
+                dialog.dismiss();
+            }).addOnFailureListener(e -> {
+                dialog.dismiss();
+                Toast.makeText(UploadActivity.this, "Error uploading image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
         }).addOnFailureListener(e -> {
             dialog.dismiss();
             Toast.makeText(UploadActivity.this, "Error uploading image: " + e.getMessage(), Toast.LENGTH_LONG).show();
