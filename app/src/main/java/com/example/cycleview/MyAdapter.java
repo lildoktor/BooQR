@@ -2,6 +2,7 @@ package com.example.cycleview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         Glide.with(context).load(dataList.get(position).getDataImage()).into(holder.recImage);
         holder.recTitle.setText(dataList.get(position).getDataTitle());
         holder.recDesc.setText(dataList.get(position).getDataDesc());
+        if(position == 1){
+            holder.recCard.setCardBackgroundColor(Color.parseColor("#ffc8ba"));
+            holder.update.setVisibility(View.VISIBLE);
+        }
 
         holder.recCard.setOnClickListener(view -> {
             Intent intent = new Intent(context, MainActivity2.class);
@@ -103,7 +108,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 }
 
 class MyViewHolder extends RecyclerView.ViewHolder{
-    ImageView recImage, option, delete, edit;
+    ImageView recImage, option, delete, edit, update;
     TextView recTitle, recDesc;
     CardView recCard;
 
@@ -117,5 +122,6 @@ class MyViewHolder extends RecyclerView.ViewHolder{
         option = itemView.findViewById(R.id.dot);
         delete = itemView.findViewById(R.id.delete);
         edit = itemView.findViewById(R.id.edit);
+        update = itemView.findViewById(R.id.update);
     }
 }

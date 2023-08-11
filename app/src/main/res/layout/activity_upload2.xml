@@ -28,57 +28,36 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Create Video QR"
+                android:text="Create Drag &amp; Drop QR"
                 android:textSize="30sp"
                 android:textAlignment="center"
                 android:textColor="@color/lavender"/>
 
             <ImageView
                 android:layout_gravity="center"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/baseline_smart_display_60"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:src="@drawable/harita"
                 android:id="@+id/uploadImage"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:scaleType="fitXY"/>
 
             <TextView
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Click to upload a video"
+                android:text="Select areas to cut out"
                 android:textSize="15sp"
                 android:textAlignment="center"
                 android:textColor="@color/lavender"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/collectionName"
-                android:background="@drawable/lavender_border"
-                android:layout_marginTop="20dp"
-                android:padding="16dp"
-                android:hint="Name to qr code.."
-                android:gravity="start|center_vertical"
-                android:textColor="@color/lavender"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:id="@+id/bookName"
-                android:background="@drawable/lavender_border"
-                android:layout_marginTop="20dp"
-                android:padding="16dp"
-                android:inputType="number"
-                android:hint="Page number"
-                android:gravity="start|center_vertical"
-                android:textColor="@color/lavender"/>
 
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Generate"
+                android:text="GENERATE"
                 android:id="@+id/saveButton"
                 android:textSize="18sp"
                 android:layout_marginTop="20dp"

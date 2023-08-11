@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_custom"
+        android:icon="@drawable/baseline_more_vert_24_white"
+        android:title="Menu"
+        app:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/option_1"
+                android:title="Settings"/>
+            <item
+                android:id="@+id/option_2"
+                android:title="Check Updates"/>
+
+            <item
+                android:id="@+id/option_3"
+                android:title="Check Updates &amp; Update All"/>
+
+            <item
+                android:id="@+id/option_4"
+                android:title="About"/>
+        </menu>
+
+    </item>
+
+</menu>

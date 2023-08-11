@@ -66,10 +66,11 @@
             android:id="@+id/dot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_more_vert_24"
+            android:src="@drawable/baseline_update_24"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/edit"

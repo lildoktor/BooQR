@@ -55,7 +55,8 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyViewHolder2> {
                 break;
             case 4:
                 holder.recImage.setImageResource(R.drawable.baseline_question_mark_60);
-//                holder.recCard.setCardBackgroundColor(Color.parseColor("#ffc8ba"));
+                holder.recCard.setCardBackgroundColor(Color.parseColor("#ffc8ba"));
+                holder.option.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 holder.recImage.setImageResource(R.drawable.baseline_draw_60);
@@ -129,7 +130,7 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyViewHolder2> {
 }
 
 class MyViewHolder2 extends RecyclerView.ViewHolder {
-    ImageView recImage, option, delete, edit;
+    ImageView recImage, option, delete, edit, update;
     TextView recTitle, recDesc, recDescPage;
     CardView recCard;
 
@@ -144,6 +145,7 @@ class MyViewHolder2 extends RecyclerView.ViewHolder {
         option = itemView.findViewById(R.id.dot);
         delete = itemView.findViewById(R.id.delete);
         edit = itemView.findViewById(R.id.edit);
+        update = itemView.findViewById(R.id.update);
     }
 
 }
